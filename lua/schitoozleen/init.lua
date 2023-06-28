@@ -5,6 +5,10 @@ local Schit = {}
 --- The git status (changes) component of the schitoozleen
 ---@return string
 function Schit.git_status()
+   local status_ok, _ = pcall(require, "gitsigns")
+   if not status_ok then
+      return ""
+   end
    if not (vim.b.gitsigns_head or vim.b.gitsigns_status_dict) then
       return ""
    end
@@ -45,7 +49,10 @@ end
 --- The dap status component of the schitoozleen
 ---@return string
 function Schit.dap_status()
-   local dap = require "dap"
+   local status_ok, dap = pcall(require, "dap")
+   if not status_ok then
+      return ""
+   end
    if not (dap.session() ~= nil) then
       return ""
    end
@@ -74,6 +81,11 @@ local function read_file(path)
    return content
 end
 function Schit.harpoon()
+   local status_ok, _ = pcall(require, "harpoon")
+   if not status_ok then
+      return ""
+   end
+
    local harpoon_json_path = vim.fn.stdpath "data" .. "/harpoon.json"
    local file_exists = vim.fn.filereadable(harpoon_json_path) ~= 0
    if not file_exists then
