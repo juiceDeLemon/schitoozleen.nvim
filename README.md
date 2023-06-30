@@ -17,6 +17,7 @@ This statusline is minimal (no colours, compact texts and minimal) and has no cu
 - Mode
 - Git status
 - Diagnostics
+- Todo-comments
 - Harpoon
 - Dap
 - File size
@@ -48,6 +49,7 @@ lazy.nvim:
         "lewis6991/gitsigns.nvim",
         "mfussenegger/nvim-dap",
         "ThePrimeagen/harpoon",
+        "folke/todo-comments.nvim",
     },
     event = "VeryLazy",
 },
@@ -60,3 +62,5 @@ Most of components: The cookbook in [heirline.nvim](https://github.com/rebelot/h
 The sourcecode of [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
 
 nvim/lua/plugins/lualine.lua of [@chrisgrieser's config](https://github.com/chrisgrieser/.config)
+
+@dasupradyumna in [#197 of folke's todo-comments](https://github.com/folke/todo-comments.nvim/issues/197)
