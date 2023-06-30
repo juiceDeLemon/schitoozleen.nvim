@@ -46,6 +46,44 @@ function Schit.diagnostics()
       .. "]"
 end
 
+--- stolen from the function in https://github.com/folke/todo-comments.nvim/issues/197
+--- removed highlight and icon
+local todo = {
+   render = {
+      FIX = "F",
+      HACK = "H",
+      NOTE = "N",
+      PERF = "P",
+      TEST = "T",
+      TODO = "D",
+      WARN = "TW",
+   },
+   stats = {},
+}
+--- The todo component of the schitoozleen
+-- (from the orig function: [ Check https://github.com/folke/todo-comments.nvim/ussues/172#issuecomment-1382691260 ])
+function Schit.todo()
+   if not require("todo-comments.config").loaded then
+      return ""
+   end
+
+   -- count number of keyword occurences
+   require("todo-comments.search").search(function(entries)
+         todo.stats = {}
+         for _, entry in ipairs(entries) do
+            todo.stats[entry.tag] = (todo.stats[entry.tag] or 0) + 1
+         end
+      end, { disable_not_found_warnings = true })
+
+   local out = {}
+   for keyword, count in vim.spairs(todo.stats) do
+      table.insert(out, todo.render[keyword] .. count)
+   end
+
+   local ret = table.concat(out) -- add/no add brackets
+   return ret == "" and ret or "[" .. ret .. "]"
+end
+
 --- The dap status component of the schitoozleen
 ---@return string
 function Schit.dap_status()
@@ -168,6 +206,7 @@ function M.setup(opts)
    vim.opt.statusline = "[ඞ %{mode()}]" -- mode
       .. "%{v:lua.Schit.git_status()}" -- git
       .. "%{v:lua.Schit.diagnostics()}" -- diagnostics
+      .. "%{v:lua.Schit.todo()}" -- todo comments
       .. "%{v:lua.Schit.harpoon()}" -- harpoon
       .. "%{v:lua.Schit.dap_status()}" -- dap status
       .. "%="
