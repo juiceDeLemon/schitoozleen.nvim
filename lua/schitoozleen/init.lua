@@ -46,22 +46,10 @@ function Schit.diagnostics()
 		.. "]"
 end
 
---- stolen from the function in https://github.com/folke/todo-comments.nvim/issues/197
---- removed highlight and icon
-local todo = {
-	render = {
-		FIX = "F",
-		HACK = "H",
-		NOTE = "N",
-		PERF = "P",
-		TEST = "T",
-		TODO = "D",
-		WARN = "TW",
-	},
-	stats = {},
-}
 --- The todo component of the schitoozleen
--- (from the orig function: [ Check https://github.com/folke/todo-comments.nvim/ussues/172#issuecomment-1382691260 ])
+--- removed highlight and icon, changed to sum of all todos
+--- stolen from the function in https://github.com/folke/todo-comments.nvim/issues/172#issuecomment-1382691260
+local stats = {}
 function Schit.todo()
 	local status_ok, _ = pcall(require, "todo-comments")
 	if not status_ok then
@@ -74,19 +62,18 @@ function Schit.todo()
 
 	-- count number of keyword occurences
 	require("todo-comments.search").search(function(entries)
-		todo.stats = {}
+		stats = {}
 		for _, entry in ipairs(entries) do
-			todo.stats[entry.tag] = (todo.stats[entry.tag] or 0) + 1
+			stats[entry.tag] = (stats[entry.tag] or 0) + 1
 		end
 	end, { disable_not_found_warnings = true })
 
-	local out = {}
-	for keyword, count in vim.spairs(todo.stats) do
-		table.insert(out, todo.render[keyword] .. count)
+	local sum = 0
+	for _, count in vim.spairs(stats) do
+		sum = sum + count
 	end
 
-	local ret = table.concat(out) -- add/no add brackets
-	return ret == "" and ret or "[" .. ret .. "]"
+	return sum == 0 and "" or "[T" .. sum .. "]"
 end
 
 --- The dap status component of the schitoozleen
