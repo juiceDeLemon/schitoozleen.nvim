@@ -195,7 +195,7 @@ function M.setup(opts)
 	_G.Schit = Schit
 
 	vim.opt.laststatus = 3 -- global statusline
-	vim.opt.statusline = "[ඞ %{mode()}]" -- mode
+	vim.opt.statusline = "[ඞ %{mode(1)}]" -- mode
 		.. "%{v:lua.Schit.git_status()}" -- git
 		.. "%{v:lua.Schit.diagnostics()}" -- diagnostics
 		.. "%{v:lua.Schit.todo()}" -- todo comments
