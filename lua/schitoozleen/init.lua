@@ -212,4 +212,11 @@ function M.setup(opts)
 		.. "[%7(%l/%3L%):%2c %P]" -- ruler
 end
 
+vim.api.nvim_create_autocmd("ModeChanged", {
+	group = vim.api.nvim_create_augroup("Schitoozleen", {}),
+	callback = function()
+		vim.cmd.redrawstatus()
+	end,
+})
+
 return M
