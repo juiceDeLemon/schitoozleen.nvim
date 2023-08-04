@@ -151,7 +151,7 @@ function Schit.harpoon()
 
 	for _, file in pairs(marked_file) do
 		if file.filename == current_file then
-			return "[harpoon]"
+			return "[harp]"
 		end
 	end
 
