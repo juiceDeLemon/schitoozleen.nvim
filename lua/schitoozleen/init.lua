@@ -89,6 +89,17 @@ function Schit.dap_status()
 	return "[" .. dap.status() .. "]"
 end
 
+--- The codeium component of the schitoozleen
+---@return string
+function Schit.codeium()
+	if vim.fn.exists("*codeium#Accept") ~= 1 then
+		return ""
+	end
+	local orig = vim.api.nvim_eval_statusline("%{codeium#GetStatusString()}", {})
+	local orig_no_space = orig.str:gsub("%s+", "")
+	return orig_no_space == "" and "" or "[C:" .. orig_no_space .. "]"
+end
+
 --- The file_name component of the schitoozleen
 ---@return string
 function Schit.file_name()
@@ -201,6 +212,7 @@ function M.setup(opts)
 		.. "%{v:lua.Schit.todo()}" -- todo comments
 		.. "%{v:lua.Schit.harpoon()}" -- harpoon
 		.. "%{v:lua.Schit.dap_status()}" -- dap status
+		.. "%{v:lua.Schit.codeium()}" -- codeium
 		.. "%="
 		.. Schit.file_name() -- filename
 		.. "%m%r%h%w%q" -- flags: m:modified,r:RO,h:help,w:preview,q:quickfix list/loc list
