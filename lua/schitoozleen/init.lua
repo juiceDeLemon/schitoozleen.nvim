@@ -216,8 +216,8 @@ function M.setup(opts)
 		.. "%="
 		.. Schit.file_name() -- filename
 		.. "%m%r%h%w%q" -- flags: m:modified,r:RO,h:help,w:preview,q:quickfix list/loc list
-		.. "%="
 		.. "%{v:lua.Schit.venv()}" -- venv
+		.. "%="
 		.. "%{v:lua.Schit.file_size()}" -- file_size
 		.. "%{v:lua.Schit.encoding()}" -- encoding (inactive if utf-8)
 		.. "%y" -- filetype
